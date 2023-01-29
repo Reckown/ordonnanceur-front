@@ -1,0 +1,1 @@
+function refresh(){console.log("Refresh test"),$(".selectpicker").selectpicker("refresh")}function delay(){return new Promise(e=>setTimeout(e,10))}function getCurrentImage(){return $(".swiper-slide-active img").attr("src")}

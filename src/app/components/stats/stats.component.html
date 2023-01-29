@@ -1,0 +1,28 @@
+
+<div class="container">
+
+  <h1>Statistiques d'utilisation des ressources : </h1>
+
+  <h3>Ressources les plus utilisées (en minutes)</h3>
+  
+  <ngx-charts-advanced-pie-chart
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="byRessource"
+    [gradient]="gradient"
+    >
+  </ngx-charts-advanced-pie-chart>
+  
+  
+  <h3>Utilisateur consommant le plus les ressources (en minutes)</h3>
+  <ngx-charts-advanced-pie-chart
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="byUser"
+    [gradient]="gradient"
+    >
+  </ngx-charts-advanced-pie-chart>
+
+</div>
+
+

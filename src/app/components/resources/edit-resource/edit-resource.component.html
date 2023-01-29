@@ -1,0 +1,87 @@
+
+<div class="container">
+
+    <div style="margin-top: 20px;">
+        <div *ngIf="!isEditingResource" class="card">
+            <h5 class="card-header">Ressource</h5>
+            <div class="card-body">
+                <h5 class="card-title">Nom de la ressource : <em>{{resource.name}}</em></h5> 
+                <p class="card-text">Id de la ressource : <em>{{resource._id}}</em></p>
+                <p><a [routerLink]="['/architectures/',idArchitecture]">Nom de l'architecture : <em>{{resource.architecture?.name}}</em></a></p>
+                <p class="card-text">Id de l'architecture : <em>{{resource.architecture?._id}}</em></p>
+                <button 
+                    (click)="onEdit()"
+                    type="button" 
+                    class="btn btn-secondary"
+                >
+                Editer la ressource
+                </button>
+            </div>
+        </div>
+    
+        <div *ngIf="isEditingResource" class="card">
+            <h5 class="card-header">Ressource</h5>
+            <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="card-title">Nom de la ressource :   </label>
+                    <input type="text" class="form-control" [(ngModel)]="resource.name">
+                </div>
+                <div class="form-group">
+                    <label class="card-text">Id de la ressource : </label>
+                    <input class="form-control" placeholder="{{resource._id}}" readonly>
+    
+                </div>
+                <div class="form-group">
+                    <label class="card-text">Nom de l'architecture :</label> 
+                    <p>
+                        <select [(ngModel)]="idArchitecture" data-live-search="true" class="selectpicker">
+                            <option *ngFor="let architecture of architectureList" value="{{architecture._id}}">{{architecture.name}}</option>
+                        </select>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="card-text">Id de l'architecture : </label>
+                    <input class="form-control" placeholder="{{resource.architecture?._id}} " readonly> 
+
+                </div>
+           
+    
+                
+    
+                <button 
+                    (click)="onSave()"
+                    type="button" 
+                    class="btn btn-success"
+                >
+                    Sauvegarder
+                </button>
+                <button
+                    (click)="onCancelChange()"
+                    type="button"
+                    class="btn btn-warning"
+                >
+                    Retour
+                </button>
+                <button 
+                    (click)="onDelete()"
+                    type="button"
+                    class="delete-btn btn btn-danger"
+                >
+                    Supprimer la ressource
+                </button>
+            </div>
+        </div>
+    
+        <div style="margin-top: 20px;">
+            <button 
+            (click)="onBack()"
+            type="button" 
+            class="btn btn-secondary"
+        >
+            Retour
+        </button>
+        </div>
+    
+    </div>
+</div>

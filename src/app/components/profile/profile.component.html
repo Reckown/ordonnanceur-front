@@ -1,0 +1,111 @@
+<div style="margin-top: 20px;">
+    <div *ngIf="!isEditingUser" class="card">
+        <div class="container">
+            <h5 class="card-header">Votre profil : </h5>
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="card-title">Pseudo :</label>
+                    <input type="text" class="form-control" [(ngModel)]="user.pseudo" disabled> 
+                </div>
+                <div class="form-group">
+                    <label class="card-title">Prénom : </label>
+                    <input type="text" class="form-control" [(ngModel)]="user.name" disabled> 
+                </div>
+                <div class="form-group">
+                    <label class="card-title">Nom de famille :</label>
+                    <input type="text" class="form-control"[(ngModel)]="user.surname" disabled>  
+                </div>
+                <div style="margin-top: 20px;">
+                    <button 
+                    (click)="onEdit()"
+                    type="button" 
+                    class="btn btn-secondary"
+                    >
+                        Modifier
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isEditingUser" class="card">
+        <div class="container">
+            <h5 class="card-header">Votre profil : </h5>
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="card-title">Pseudo :</label>
+                    <input type="text" class="form-control" [(ngModel)]="user.pseudo"> 
+                </div>
+                <div class="form-group">
+                    <label class="card-title">Prénom : </label>
+                    <input type="text" class="form-control" [(ngModel)]="user.name"> 
+                </div>
+                <div class="form-group">
+                    <label class="card-title">Nom de famille :</label>
+                    <input type="text" class="form-control"[(ngModel)]="user.surname">  
+                </div>
+                <button 
+                    (click)="onSave()"
+                    type="button" 
+                    class="btn btn-success"
+                >
+                    Sauvegarder
+                </button>
+                <button
+                    (click)="onCancelChange()"
+                    type="button"
+                    class="btn btn-warning"
+                >
+                    Retour
+                </button>
+            </div>
+        </div>
+    </div>
+    <h4>Vos reservations : </h4>
+    <div class="bg-image h-100">
+        <div class="mask d-flex align-items-center h-100">
+          <div class="container-fluid">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body p-0">
+                    <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 500px">
+                      <table class="table table-striped mb-0">
+                        <thead style="background-color: #545E75;">
+                          <tr>
+                              <th scope="col" style="width: 10%;">Id</th>
+                              <th scope="col">ressource</th>
+                              <th scope="col">date début</th>
+                              <th scope="col">date fin</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let event of calendarEventList">
+                              <td>{{event._id}}</td>
+                              <td>{{event.idResource}}</td>
+                              <td>{{event.start}}</td>
+                              <td>{{event.end}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    <div style="margin-top: 20px;">
+        <button
+        (click)="onBack()"
+        type="button"
+        class="btn btn-secondary"
+        >
+            Retour
+        </button>
+    </div>
+
+
+</div>

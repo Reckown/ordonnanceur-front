@@ -1,0 +1,23 @@
+<div style="margin-top: 20px;">
+    <h5 class="card-header">Ajouter une architecture</h5>
+    <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+    <div class="card-body">
+        <h5 class="card-title">Nom de l'architecture : <input type="text" [(ngModel)]="architecture.name">  </h5>
+        <button 
+            (click)="onSave()"
+            type="button" 
+            class="btn btn-success"
+        >
+            Sauvegarder
+        </button>
+        <button
+            (click)="onBack()"
+            type="button"
+            class="btn btn-warning"
+        >
+            Retour
+        </button>
+    </div>
+
+</div> 
+    

@@ -1,0 +1,35 @@
+<div style="margin-top: 20px;" class="container">
+    <h5 class="card-header">Ajouter une ressource</h5>
+    <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+    <div class="card-body">
+        <div class="form-group">
+            <label class="card-title">Nom de la ressource :  </label>
+            <input type="text" class="form-control" [(ngModel)]="resource.name"> 
+        </div>
+        <div class="form-group">
+            <label class="card-title">Architecture de la ressource : </label>
+            <p>
+                <select data-live-search="true" class="selectpicker" [(ngModel)]="idArchitecture">
+                    <option *ngFor="let architecture of architectureList" value="{{architecture._id}}">{{architecture.name}}</option>
+                </select>
+            </p>
+        </div>
+        
+        <button 
+            (click)="onSave()"
+            type="button" 
+            class="btn btn-success"
+        >
+            Sauvegarder
+        </button>
+        <button
+            (click)="onBack()"
+            type="button"
+            class="btn btn-warning"
+        >
+            Retour
+        </button>
+    </div>
+
+</div> 
+    

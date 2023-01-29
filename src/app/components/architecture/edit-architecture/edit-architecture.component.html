@@ -1,0 +1,58 @@
+
+<div style="margin-top: 20px;">
+    <div *ngIf="!isEditingArchitecture" class="card">
+        <h5 class="card-header">Architecture</h5>
+        <div class="card-body">
+            <h5 class="card-title">Nom de l'architecture : <em>{{architecture.name}}</em></h5> 
+            <p class="card-text">Id de l'architecture : <em>{{architecture._id}}</em></p>
+            <button 
+                (click)="onEdit()"
+                type="button" 
+                class="btn btn-secondary"
+            >
+            Editer l'architecture
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="isEditingArchitecture" class="card">
+        <h5 class="card-header">Architecture</h5>
+        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+        <div class="card-body">
+            <h5 class="card-title">Nom de l'architecture : <input type="text" [(ngModel)]="architecture.name">  </h5>
+            <p class="card-text">Id de l'architecture : <em>{{architecture._id}} (Pas de possibilité de modifier les id)</em></p>
+            <button 
+                (click)="onSave()"
+                type="button" 
+                class="btn btn-success"
+            >
+                Sauvegarder
+            </button>
+            <button
+                (click)="onCancelChange()"
+                type="button"
+                class="btn btn-warning"
+            >
+                Retour
+            </button>
+            <button 
+                (click)="onDelete()"
+                type="button"
+                class="delete-btn btn btn-danger"
+            >
+                Supprimer l'architecture
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <button 
+        (click)="onBack()"
+        type="button" 
+        class="btn btn-secondary"
+    >
+        Retour
+    </button>
+    </div>
+
+</div>

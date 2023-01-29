@@ -1,0 +1,38 @@
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+thead th {
+  color: #fff;
+}
+
+.card {
+  border-radius: .5rem;
+}
+
+.table-scroll {
+  border-radius: .5rem;
+}
+
+.table-scroll table thead th {
+  font-size: 1.25rem;
+}
+thead {
+  top: 0;
+  position: sticky;
+}
+
+.btn.btn-secondary {
+    color: #fff;
+    border-color: #63ADF2;
+    background: #63ADF2;
+}
+
+.btn.btn-secondary-edit {
+    color: #fff;
+    border-color: #304D6D;
+    background: #304D6D;
+}

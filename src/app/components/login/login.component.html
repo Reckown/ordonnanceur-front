@@ -1,0 +1,31 @@
+<div class="container" style="margin-top: 20px;">
+    <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+
+    <form [formGroup]="form">
+        <fieldset>
+        <div class="form-outline mb-4 form-field">
+            <label class="form-label" >Pseudo</label>
+            <input type="email " class="form-control" name="email" formControlName="email" />
+        </div>
+      
+        <div class="form-outline mb-4 form-field">
+            <label >Mot de passe</label>
+            <input type="password" class="form-control" class="form-control" formControlName="password" 
+                type="password"/>
+        </div>
+        <div style="text-align: center;">
+            <button type="button" class="btn btn-primary w-50 mb-4" [disabled]="loading"
+                (click)="login()">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Connexion </button>
+        </div>
+
+        
+        <div class="text-center">
+          <p>Pas encore de compte ? <a [routerLink]="['/register']">Inscription</a></p>
+        </div>
+        </fieldset>
+    </form>
+</div>
+
+

@@ -1,0 +1,288 @@
+<div style="text-align: center;">
+  <h2>Choissisez la ressource que vous voulez consulter : </h2>
+  <div *ngFor="let resource of ressourcesList" class="btn-group btn-group-toggle">
+    <button *ngIf="resource._id===currentRessource._id" class="btn btn-primary">
+      {{resource.name}}
+    </button>
+    <button  *ngIf="resource._id!= currentRessource._id" class="btn btn-outline-primary" (click)="changeResourceDisplay(resource._id)">
+      {{resource.name}}
+    </button>
+  </div>
+  <h4>Ressource actuelle : {{this.currentRessource.name}}</h4>
+</div>
+
+<div class="container">
+  <div class="row text-center" style="margin-top: 30px;">
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div
+          class="btn btn-primary"
+          mwlCalendarPreviousView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+        >
+          Previous
+        </div>
+        <div
+          class="btn btn-outline-secondary"
+          mwlCalendarToday
+          [(viewDate)]="viewDate"
+        >
+          Today
+        </div>
+        <div
+          class="btn btn-primary"
+          mwlCalendarNextView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+        >
+          Next
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    </div>
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div
+          class="btn btn-primary"
+          (click)="setView(CalendarView.Month)"
+          [class.active]="view === CalendarView.Month"
+        >
+          Month
+        </div>
+        <div
+          class="btn btn-primary"
+          (click)="setView(CalendarView.Week)"
+          [class.active]="view === CalendarView.Week"
+        >
+          Week
+        </div>
+        <div
+          class="btn btn-primary"
+          (click)="setView(CalendarView.Day)"
+          [class.active]="view === CalendarView.Day"
+        >
+          Day
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view
+      *ngSwitchCase="CalendarView.Month"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      [activeDayIsOpen]="activeDayIsOpen"
+      (dayClicked)="dayClicked($event.day)"
+      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view
+      *ngSwitchCase="CalendarView.Week"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view
+      *ngSwitchCase="CalendarView.Day"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-day-view>
+  </div>
+  
+
+</div>
+
+<!-- Ajouter une réservation -->
+<div>
+  <h3>Réserver une ressource : </h3>
+  <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+  <div class="table">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Date de début de réservation</th>
+          <th>Date de fin de réservation</th>
+          <th>Ressource à reserver</th>
+          <th>Supprimer</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let event of eventToAdd; let i = index">
+        <tr>
+          <td>
+            <input
+              class="form-control"
+              type="text"
+              mwlFlatpickr
+              minDate="today"
+              [(ngModel)]="event.start"
+              [altInput]="true"
+              [convertModelValue]="true"
+              [enableTime]="true"
+              dateFormat="Y-m-dTH:i"
+              altFormat="F j, Y H:i"
+              placeholder="Not set"
+              [time24hr]= "true"
+              timeFormat= "H:i"
+          />
+          </td>
+          <td>
+            <input
+              class="form-control"
+              type="text"
+              mwlFlatpickr
+              minDate="today"
+              minDate="event.start"
+              [(ngModel)]="event.end"
+              [altInput]="true"
+              [convertModelValue]="true"
+              [enableTime]="true"
+              dateFormat="Y-m-dTH:i"
+              altFormat="F j, Y H:i"
+              placeholder="Not set"
+              [time24hr]= "true"
+              timeFormat= "H:i"
+          />
+          </td>
+          <td>
+            <select data-live-search="true" class="selectpicker form-group" [(ngModel)]="event.idResource">
+              <option *ngFor="let resource of ressourcesList" value="{{resource._id}}">{{resource.name}}</option>
+          </select>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="removeReservation(i)" >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button class="btn btn-secondary" (click)="addReservation()">
+    Ajouter une réservation 
+  </button>
+  <button class="btn btn-secondary" (click)="saveEvents()" >
+    Sauvegarder
+  </button>
+</div>
+
+
+<br /><br /><br />
+
+<h3>
+  List des évènements de la ressource :  
+  <div class="clearfix"></div>
+</h3>
+
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Réservation</th>
+        <th>Couleur</th>
+        <th>Début</th>
+        <th>Fin</th>
+        <th>Supprimer</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let event of events">
+        <td>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="event.title"
+            (keyup)="refresh.next()"
+            disabled/>
+        </td>
+        <td>
+          <input
+            type="color"
+            [(ngModel)]="event.color.primary"
+            (change)="refresh.next()"
+            disabled/>
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            disabled
+            mwlFlatpickr
+            [(ngModel)]="event.start"
+            (ngModelChange)="refresh.next()"
+            [altInput]="true"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i"
+            placeholder="Not set"
+            />
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            mwlFlatpickr
+            disabled
+            [(ngModel)]="event.end"
+            (ngModelChange)="refresh.next()"
+            [altInput]="true"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i"
+            placeholder="Not set"
+          />
+        </td>
+        <td>
+          <button  *ngIf="event.user===username" class="btn btn-danger" (click)="deleteEvent(event)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #modalContent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Détail sur la réservation </h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      Titre : 
+      <pre>{{modalData?.event?.title}}</pre>
+    </div>
+    <div>
+      Date de début :
+      <pre>{{modalData?.event?.start}}</pre>
+    </div>
+    <div>
+      Date de fin
+      <pre>{{modalData?.event?.end}}</pre>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      OK
+    </button>
+  </div>
+</ng-template>
